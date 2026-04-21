@@ -1,0 +1,155 @@
+﻿@page "/productos"
+@using System.Linq
+
+<h3 style="margin-bottom:20px;">Registro de productos</h3>
+
+<div style="max-width:600px;">
+
+    <!-- FORMULARIO -->
+    <div style="margin-bottom:10px;">
+        <label>No. de inventario</label><br />
+        <input type="number" @bind="inventario" style="width:100%; padding:8px;" />
+    </div>
+
+    <div style="margin-bottom:10px;">
+        <label>Descripción</label><br />
+        <input type="text" @bind="nombre" placeholder="Escribe la descripción del producto"
+               style="width:100%; padding:8px;" />
+    </div>
+
+    <!-- DEPARTAMENTO -->
+    <div style="margin-bottom:15px;">
+        <label>Departamento</label><br />
+
+        <label style="margin-right:15px;">
+            <input type="radio" name="departamento"
+                   checked="@(departamento == "Frutas")"
+                   @onchange="@(() => departamento = "Frutas")" />
+            Frutas
+        </label>
+
+        <label style="margin-right:15px;">
+            <input type="radio" name="departamento"
+                   checked="@(departamento == "Verduras")"
+                   @onchange="@(() => departamento = "Verduras")" />
+            Verduras
+        </label>
+
+        <label>
+            <input type="radio" name="departamento"
+                   checked="@(departamento == "Lácteos")"
+                   @onchange="@(() => departamento = "Lácteos")" />
+            Lácteos
+        </label>
+    </div>
+
+    <!-- BOTÓN GUARDAR -->
+    <div style="margin-bottom:15px;">
+        <button @onclick="Guardar" style="background-color:green; color:white; padding:8px 12px; border-radius:10px;">
+            Guardar datos
+        </button>
+    </div>
+
+    <p style="color:red">@mensajeError</p>
+
+    <!-- BOTONES DE LISTAS -->
+    <div style="margin-top:20px;">
+        <button @onclick='() => MostrarLista("Todos")' style="background-color:green; color:white; padding:8px; margin-right:5px; border-radius:10px;">Lista completa</button>
+
+        <button @onclick='() => MostrarLista("Frutas")' style="background-color:green; color:white; padding:8px; margin-right:5px; border-radius:10px;">Lista de frutas</button>
+
+        <button @onclick='() => MostrarLista("Verduras")' style="background-color:green; color:white; padding:8px; margin-right:5px; border-radius:10px;">Lista de verduras</button>
+
+        <button @onclick='() => MostrarLista("Lácteos")' style="background-color:green; color:white; padding:8px; margin-right:5px; border-radius:10px;">Lista de lácteos</button>
+
+        <button @onclick="CerrarLista" style="background-color:red; color:white; padding:8px; border-radius:10px;">Cerrar lista</button>
+    </div>
+
+    <hr />
+
+    <!-- TABLA -->
+    @if (mostrarLista)
+    {
+        <table border="1" style="width:100%; border-collapse:collapse;">
+            <tr style="background-color:#f2f2f2;">
+                <th>Inventario</th>
+                <th>Descripción</th>
+                <th>Departamento</th>
+            </tr>
+
+            @for (int i = 0; i < inventarios.Count; i++)
+            {
+                if (filtro == "Todos" || departamentos[i] == filtro)
+                {
+                    <tr>
+                        <td>@inventarios[i]</td>
+                        <td>@nombres[i]</td>
+                        <td>@departamentos[i]</td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+
+</div>
+
+@code {
+
+    // VARIABLES DEL FORMULARIO
+    int inventario;
+    string nombre = "";
+    string departamento = "";
+
+    // LISTAS (en lugar de clase)
+    List<int> inventarios = new List<int>();
+    List<string> nombres = new List<string>();
+    List<string> departamentos = new List<string>();
+
+    string mensajeError = "";
+
+    bool mostrarLista = false;
+    string filtro = "Todos";
+
+    void Guardar()
+    {
+        mensajeError = "";
+
+        if (string.IsNullOrWhiteSpace(nombre))
+        {
+            mensajeError = "El nombre no puede estar vacío";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(departamento))
+        {
+            mensajeError = "Seleccione un departamento";
+            return;
+        }
+
+        if (inventarios.Contains(inventario))
+        {
+            mensajeError = "El número de inventario ya existe";
+            return;
+        }
+
+        inventarios.Add(inventario);
+        nombres.Add(nombre);
+        departamentos.Add(departamento);
+
+        // limpiar
+        inventario = 0;
+        nombre = "";
+        departamento = "";
+    }
+
+    void MostrarLista(string tipo)
+    {
+        filtro = tipo;
+        mostrarLista = true;
+    }
+
+    void CerrarLista()
+    {
+        mostrarLista = false;
+    }
+}

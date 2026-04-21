@@ -1,0 +1,61 @@
+﻿@page "/ciclos"
+@rendermode
+<h3>Ciclos</h3>
+<div class="row align-items-center">
+    <div class="col-1">
+        <label for="txtValor" class="col-form-label">Valor</label>
+    </div>
+    <div class="col-11">
+        <input type="number" id="txtValor" class="form-control"@bind="_valor">
+    </div>
+</div>
+<button class="btn btn-primary mt-3" @onclick="Ejecutar">Ejecutar</button>
+<button class="btn btn-success mt-3" @onclick="Guardar">Guardar</button>
+<button class="btn btn-danger mt-3" @onclick="Eliminar">Eliminar</button>
+<button class="btn btn-danger mt-3" @onclick="Limpiar">Limpiar</button>
+<button class="btn btn-secondary mt-3"@onclick="Buscar">Buscar</button>
+<div class="mt-3">
+    calificaciones guardadas:@_calificaciones.Count
+    <hr/>
+    @foreach(int calificaciones in _calificaciones)
+    {
+        <text>Calificaciones: @calificaciones<br/></text>
+    }
+</div>
+<div class="mt-3"> 
+    @((MarkupString)_cadena)
+</div>
+
+@code {
+    private int _valor, _indice;
+    private string _cadena = "";
+    private List<int> _calificaciones = new();
+
+    private void Ejecutar()
+    {
+        _indice = 0;
+        _cadena = "";
+        while(_indice<_valor)
+        {
+            _cadena += $"valor del indice: {_indice}<br>";
+            _indice++;
+        }
+    }
+    private void Guardar()
+    {
+        _calificaciones.Add(_valor);
+        _valor = 0;
+    }
+    private void Eliminar()
+    {
+        _calificaciones.Remove(_valor);
+    }
+    private void Limpiar()
+    {
+
+    }
+    private void Buscar()
+    {
+        
+    }
+} 

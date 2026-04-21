@@ -1,0 +1,53 @@
+﻿@page "/listaactividades"
+<h3 class="mb-3">Lista de actividades</h3>
+
+<div class="card p-3 mb-3 shadow-sm">
+    <div class="d-flex gap-2">
+        <input class="form-control" placeholder="Escribe una actividad..."
+            @bind="nuevaActividad"/>
+        <button class="btn btn-success" @onclick="AgregarActividad">
+            Agregar
+        </button>
+    </div>
+</div>
+
+<div class="card p-3 shadow-sm">
+    <h5>Actividades por hacer</h5
+    @if (actividades.Count == 0)
+    {
+        <p class="text-muted">"No hay actividades aún..."</p>
+    }
+    else
+    {
+        @foreach(var act in actividades)
+        {
+            <div class="d-flex justify-content-between align-items-center border p-2 mb-2 rounded bg-light">
+                <span>@act</span>
+
+                <button class="btn btn-danger btn-sm"
+                        @onclick="() => EliminarActividad(act)">
+                    ❌
+            </button>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    List<string> actividades = new List<string>();
+    string nuevaActividad = "";
+
+    void AgregarActividad()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaActividad))
+        {
+            actividades.Add(nuevaActividad);
+            nuevaActividad = "";
+        }
+    }
+
+    void EliminarActividad(string actividad)
+    {
+        actividades.Remove(actividad);
+    }
+}

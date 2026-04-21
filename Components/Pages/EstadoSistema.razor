@@ -1,0 +1,34 @@
+﻿<div class="alert alert-@_class">
+    @_letrero
+</div>
+
+@code {
+    [Parameter]
+    public int CodigoEstado { get; set; }
+
+    private string _class = "",_letrero = "";
+
+    protected override void OnParametersSet()
+    {
+        if (CodigoEstado == 200)
+        {
+            _letrero = "Sistema Operacional";
+            _class = "success"; // verde
+        }
+        else if (CodigoEstado == 404)
+        {
+            _letrero = "Recurso No Encontrado";
+            _class = "warning"; // amarillo
+        }
+        else if (CodigoEstado == 500)
+        {
+            _letrero = "Error Interno del Servidor";
+            _class = "danger"; // rojo
+        }
+        else
+        {
+            _letrero = "Estado Desconocido";
+            _class = "secondary"; // gris
+        }
+    }
+}

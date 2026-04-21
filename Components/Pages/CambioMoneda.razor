@@ -1,0 +1,44 @@
+﻿@page "/cambiomoneda"
+
+<h3>Cambio de moneda</h3>
+
+<div class="mb-3">
+    <label>Pesos</label>
+    <input type="number" class="form-control" @bind="pesos" @bind:event="oninput" />
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularCambio">Calcular cambio</button>
+
+<div class="mt-3">
+    <label>Dólares</label>
+    <input class="form-control" value="@dolares" readonly />
+</div>
+
+<div class="mt-2">
+    <label>Euros</label>
+    <input class="form-control" value="@euros" readonly />
+</div>
+
+<div class="mt-2">
+    <label>Libras</label>
+    <input class="form-control" value="@libras" readonly />
+</div>
+
+@code {//código de las operaciones
+    double pesos;
+
+    double dolares;
+    double euros;
+    double libras;
+
+    double valorDolar = 0.058;
+    double valorEuro = 0.053;
+    double valorLibra = 0.045;
+
+    void CalcularCambio()
+    {
+        dolares = Math.Round(pesos * valorDolar, 2);
+        euros = Math.Round(pesos * valorEuro, 2);
+        libras = Math.Round(pesos * valorLibra, 2);
+    }
+}

@@ -1,0 +1,59 @@
+﻿@page "/listanumeros"
+<h3>Lista de números</h3>
+
+<div>
+    <label>Número 1</label>
+    <input type="number" @bind="num1" />
+</div>
+
+<div>
+    <label>Número 2</label>
+    <input type="number" @bind="num2" />
+</div>
+
+<br />
+
+<button @onclick="Calcular">Calcular</button>
+<br /><br />
+
+<div style="display:flex; gap:50px;">
+    <div>
+        <h4>Pares</h4>
+        @foreach (var n in pares)
+        {
+            <div>@n</div>
+        }
+    </div>
+    <div>
+        <h4>Impares</h4>
+        @foreach (var n in impares)
+        {
+            <div>@n</div>
+        }
+    </div>
+
+</div>
+@code {
+    int num1;
+    int num2;
+
+    List<int> pares = new List<int>();
+    List<int> impares = new List<int>();
+
+    void Calcular()
+    {
+        pares.Clear();
+        impares.Clear();
+
+        int inicio = Math.Min(num1, num2);
+        int fin = Math.Max(num1, num2);
+
+        for(int i=inicio; i<=fin; i++)
+        {
+            if (i % 2 == 0)
+                pares.Add(i);
+            else
+                impares.Add(i);
+        }
+    }
+}
